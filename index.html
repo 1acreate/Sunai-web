@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,23 +46,18 @@
   </style>
 </head>
 <body>
-  <h1>🎤 Sunai AI - Vocal to Music Generator</h1>
-
-  <div class="section">
+  <h1>🎤 Sunai AI - Vocal to Music Generator</h1>  <div class="section">
     <label for="prompt">🎵 Describe Your Music Style:</label>
-    <input id="prompt" type="text" placeholder="e.g. Punjabi devotional with dhol beats" />
+    <input id="prompt" type="text" placeholder="e.g. Punjabi devotional with dhol beats" /><label for="audioFile">🎙️ Upload Your Singing:</label>
+<input id="audioFile" type="file" accept="audio/*" />
 
-    <label for="audioFile">🎙️ Upload Your Singing:</label>
-    <input id="audioFile" type="file" accept="audio/*" />
+<button onclick="generateMusic()">🎶 Generate & Mix</button>
 
-    <button onclick="generateMusic()">🎶 Generate & Mix</button>
+<p id="status"></p>
+<audio id="player" controls style="display:none;"></audio>
+<a id="downloadLink" href="#" download style="display:none; margin-top: 10px;">⬇️ Download Mixed Track</a>
 
-    <p id="status"></p>
-    <audio id="player" controls style="display:none;"></audio>
-    <a id="downloadLink" href="#" download style="display:none; margin-top: 10px;">⬇️ Download Mixed Track</a>
-  </div>
-
-  <script>
+  </div>  <script>
     async function generateMusic() {
       const prompt = document.getElementById('prompt').value;
       const fileInput = document.getElementById('audioFile');
@@ -85,7 +79,7 @@
       formData.append('prompt', prompt);
 
       try {
-        const response = await fetch('https://sunai-api.onrender.com/generate', {
+        const response = await fetch('https://sunai.hf.space/generate', {
           method: 'POST',
           body: formData
         });
@@ -109,6 +103,5 @@
         status.innerText = '❌ Failed to generate music. Please try again.';
       }
     }
-  </script>
-</body>
+  </script></body>
 </html>
