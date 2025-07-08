@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎶 Suno AI - Vocal to Music Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      background: white;
+      margin: auto;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #5e0acc;
+    }
+    input, button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background-color: #5e0acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    audio {
+      margin-top: 20px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎤 SunoAI - Vocal to Music</h1>
+    <form id="musicForm">
+      <input type="file" id="vocalInput" accept="audio/*" />
+      <p>or</p>
+      <input type="text" id="textPrompt" placeholder="Type your prompt, e.g. Bhakti dhol beat" />
+      <button type="submit">🎶 Generate Music</button>
+    </form>
+
+    <div id="result" style="display: none;">
+      <h3>🎧 Your Mix is Ready!</h3>
+      <audio id="musicPlayer" controls></audio><br>
+      <a id="downloadLink" href="#" download="SunoAI_Mix.wav">⬇️ Download</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('musicForm');
+    const result = document.getElementById('result');
+    const player = document.getElementById('musicPlayer');
+    const link = document.getElementById('downloadLink');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const file = document.getElementById('vocalInput').files[0];
+      const prompt = document.getElementById('textPrompt').value;
+      const formData = new FormData();
+      if (file) formData.append('vocal', file);
+      if (prompt) formData.append('prompt', prompt);
+
+      const res = await fetch('https://your-api-url/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const audioURL = URL.createObjectURL(blob);
+        player.src = audioURL;
+        link.href = audioURL;
+        result.style.display = 'block';
+      } else {
+        alert('❌ Failed to generate music. Try again.');
+      }
+    });
+  </script>
+</body>
+</html>
